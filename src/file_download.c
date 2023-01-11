@@ -146,7 +146,7 @@ int file_download_yield(file_download_context_t* ctx)
             ctx->config.event_handler(ctx, &ctx->event);
         }
         ctx->state = DL_STATE_FILESIZE_GET;
-
+        //fall through
     case DL_STATE_FILESIZE_GET:
         if (ctx->file_size == 0) {
             TY_LOGD("start get the file size.");
@@ -173,8 +173,7 @@ int file_download_yield(file_download_context_t* ctx)
         }
         ctx->retry = 0;
         ctx->state = DL_STATE_DATE_GET;
-        // break;
-
+        //fall through
     case DL_STATE_DATE_GET: {
         /* File download complete? */
         if (ctx->received_size < ctx->file_size) {
@@ -201,7 +200,7 @@ int file_download_yield(file_download_context_t* ctx)
         TY_LOGI("Download Complete!");
         ctx->state = DL_STATE_COMPLETE;
     }
-
+    //fall through
     case DL_STATE_COMPLETE:
         if (ctx->config.event_handler) {
             ctx->event.id = DL_EVENT_FINISH;
